@@ -1,11 +1,11 @@
 import { Box, TextField, Grid, Divider, InputAdornment } from '@mui/material';
 import { useState, type FC } from 'react';
-import MovieCard from '../movie-card/movie-card.component';
+import MovieCard from '../../components/movie-card/movie-card.component';
 import { useMovies } from '../../hooks/use-movies.hook';
-import MovieCardSkeleton from '../movie-card/movie-card-skeleton.component';
+import MovieCardSkeleton from '../../components/movie-card/movie-card-skeleton.component';
 import SearchIcon from '@mui/icons-material/Search';
 
-const MoviesGrid: FC = () => {
+const Movies: FC = () => {
 
 
   const [filter, setFilter] = useState<string>('');
@@ -72,4 +72,4 @@ const MoviesGrid: FC = () => {
     </Box>
   )
 }
-export default MoviesGrid;
+export default Movies;

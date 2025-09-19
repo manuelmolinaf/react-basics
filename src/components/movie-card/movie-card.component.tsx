@@ -2,9 +2,11 @@ import  {  useState, type FC } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { CardMedia } from '@mui/material';
+import { Button, CardMedia } from '@mui/material';
 import type { Movie } from '../../interfaces/movie.interface';
 import { ImageNotFoundBox } from './movie-card.styles';
+import { useNavigate } from 'react-router';
+
 
 interface MovieCardProps {
   movie: Movie;
@@ -15,8 +17,15 @@ interface MovieCardProps {
 const MovieCard: FC<MovieCardProps> = ({ movie }) => {
   const [imgError, setImgError] = useState(false);
 
+  const navigate = useNavigate();
+
+  const detailsOnClickHandler = (id:number) =>{
+
+    navigate(`./${id}`)
+  }
+
   return (
-    <Card sx={{ width: '100%', borderRadius: 2, overflow: 'hidden' }}>
+    <Card sx={{ width: '100%', borderRadius: 2, overflow: 'hidden' }} >
       {imgError ? (
         <ImageNotFoundBox>
           Image Not Found
@@ -37,6 +46,9 @@ const MovieCard: FC<MovieCardProps> = ({ movie }) => {
         <Typography gutterBottom variant="subtitle1" component="div" noWrap>
           {movie.name}
         </Typography>
+        <Button variant='contained' onClick={()=>detailsOnClickHandler(movie.rank)}>
+          Details
+        </Button>
       </CardContent>
     </Card>
   );
