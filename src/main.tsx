@@ -9,15 +9,18 @@ import '@fontsource/roboto/700.css';
 import App from './app.component';
 import { getTheme } from './theme/theme';
 import { ThemeProvider } from '@mui/material';
-
+import { BrowserRouter} from "react-router";
 
 const mode: 'light' | 'dark' = 'light';
 const theme = getTheme(mode);
 
 createRoot(document.getElementById('root')!).render(
+  
   <StrictMode>
     <ThemeProvider theme={theme}>
-      <App />
+      <BrowserRouter>
+        <App />
+      </BrowserRouter>   
     </ThemeProvider>
     
   </StrictMode>

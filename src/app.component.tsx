@@ -2,28 +2,23 @@
 
 
 import { type FC } from 'react';
-import './app.styles.css';
 
 
-import { Box } from '@mui/material';
-
-import MoviesAppBar from './components/layout/movies-app-bar.component';
-import MoviesGrid from './components/movies-grid/movies-grid.component';
-
+import { Routes, Route, Navigate } from "react-router";
+import Layout from './components/layout/layout.component';
+import MoviesGrid from './pages/movies-grid/movies-grid.component';
 
 const App: FC = () => {
-  
+
 
   return (
-    <Box display='flex' flexDirection='column' height='100vh'>
-      <MoviesAppBar />
-
-      <Box component='main' display='flex'  flexDirection='column' flexGrow={1} bgcolor='background.default' overflow='auto' height='100%'>
-
-        <MoviesGrid/>
-        
-      </Box>
-    </Box>
+    <Routes>
+      <Route path="/" element={<Layout />}>
+        <Route index element={<Navigate to="movies" replace />} />
+        <Route path="movies" element={<MoviesGrid />} />
+        {/* <Route path="movies/:id" element={<MovieDetails />} />  */}
+      </Route>
+    </Routes>
   );
 }
 

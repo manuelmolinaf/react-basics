@@ -34,7 +34,7 @@ const MovieCard: FC<MovieCardProps> = ({ movie }) => {
         />
       )}
       <CardContent>
-        <Typography gutterBottom variant="subtitle1" component="div" noWrap>
+        <Typography gutterBottom variant="subtitle1" component="div" noWrap fontWeight='bold' mb={0}>
           {movie.name}
         </Typography>
       </CardContent>
