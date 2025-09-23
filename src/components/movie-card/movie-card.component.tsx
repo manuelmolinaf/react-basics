@@ -2,7 +2,7 @@ import  {  useState, type FC } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { Button, CardMedia } from '@mui/material';
+import { CardMedia } from '@mui/material';
 import type { Movie } from '../../interfaces/movie.interface';
 import { ImageNotFoundBox } from './movie-card.styles';
 import { useNavigate } from 'react-router';
@@ -25,7 +25,19 @@ const MovieCard: FC<MovieCardProps> = ({ movie }) => {
   }
 
   return (
-    <Card sx={{ width: '100%', borderRadius: 2, overflow: 'hidden' }} >
+    <Card
+      onClick={() => detailsOnClickHandler(movie.rank)} 
+    sx={{
+        width: '100%',
+        borderRadius: 2,
+        overflow: 'hidden',
+        cursor: 'pointer',
+        transition: 'transform 0.2s ease, box-shadow 0.2s ease',
+        '&:hover': {
+          transform: 'scale(1.03)',
+          boxShadow: 6,
+      },
+    }} >
       {imgError ? (
         <ImageNotFoundBox>
           Image Not Found
@@ -46,9 +58,7 @@ const MovieCard: FC<MovieCardProps> = ({ movie }) => {
         <Typography gutterBottom variant="subtitle1" component="div" noWrap>
           {movie.name}
         </Typography>
-        <Button variant='contained' onClick={()=>detailsOnClickHandler(movie.rank)}>
-          Details
-        </Button>
+       
       </CardContent>
     </Card>
   );

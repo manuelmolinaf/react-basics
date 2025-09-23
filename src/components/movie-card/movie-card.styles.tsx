@@ -10,4 +10,3 @@ export const ImageNotFoundBox = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   color: theme.palette.grey[700],
 }));
-

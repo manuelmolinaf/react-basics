@@ -18,41 +18,43 @@ const Movies: FC = () => {
   return (
     <Box flexGrow={1} display='flex' flexDirection='column'>
 
-       <Box 
-        position='sticky' 
-        top={0} 
-        zIndex={1} 
-        bgcolor='background.default' 
+      <Box
+        position='sticky'
+        top={0}
+        zIndex={1}
+        bgcolor='background.default'
         py={2}
         px={2}
- 
+        display="flex"
+        justifyContent="center"
+
       >
         <TextField
-     
+
           variant='outlined'
-          size='small'
+          size='medium'
           sx={{ width: '50%' }}
           placeholder='Search'
           value={filter}
           onChange={(e) => setFilter(e.target.value)}
-         slotProps={{
-          input: {
-            startAdornment: (
-              <InputAdornment position="start">
-                <SearchIcon />
-              </InputAdornment>
-            ),
-          },
-        }}
+          slotProps={{
+            input: {
+              startAdornment: (
+                <InputAdornment position="start">
+                  <SearchIcon />
+                </InputAdornment>
+              ),
+            },
+          }}
         />
-        <Divider sx={{mt:2}}/>
+        <Divider sx={{ mt: 2 }} />
       </Box>
       <Box flexGrow={1} overflow='auto' p={2}>
 
         {
           isLoading ?
             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} display='flex' alignContent='center' justifyContent='center' width='100%' >
-              {[0,1,2,3,4,5].map((_, index) => (
+              {[0, 1, 2, 3, 4, 5].map((_, index) => (
                 <Grid key={index} size={{ xs: 2, sm: 4, md: 2 }}>
                   <MovieCardSkeleton />
                 </Grid>
