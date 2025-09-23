@@ -19,14 +19,14 @@ const MovieCard: FC<MovieCardProps> = ({ movie }) => {
 
   const navigate = useNavigate();
 
-  const detailsOnClickHandler = (id:number) =>{
+  const detailsOnClickHandler = (id:string) =>{
 
     navigate(`./${id}`)
   }
 
   return (
     <Card
-      onClick={() => detailsOnClickHandler(movie.rank)} 
+      onClick={() => detailsOnClickHandler(movie.id)} 
     sx={{
         width: '100%',
         borderRadius: 2,

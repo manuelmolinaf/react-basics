@@ -20,7 +20,7 @@ import { ImageNotFoundBox } from '../../components/movie-card/movie-card.styles'
 const MovieDetails: FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { movie, isLoading } = useMovie(Number(id));
+  const { movie, isLoading } = useMovie(id);
   const [imgError, setImgError] = useState(false); // track image load error
 
   if (isLoading || movie === null) return <MovieDetailsSkeleton />;

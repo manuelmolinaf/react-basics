@@ -2,7 +2,7 @@ import { useEffect, useState } from 'react';
 import type { Movie } from '../interfaces/movie.interface';
 
 
-export const useMovie = (id?:number ) =>{
+export const useMovie = (id?:string ) =>{
 
     const [movie, setMovie] = useState<Movie | null>(null);
     const [error, setError] = useState<string | null>(null);
