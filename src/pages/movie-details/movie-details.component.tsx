@@ -16,12 +16,16 @@ import { ChevronLeft } from '@mui/icons-material';
 import MovieDetailsSkeleton from '../../components/movie-details-skeleton/movie-details-skeleton.component';
 import { useState } from 'react';
 import { ImageNotFoundBox } from '../../components/movie-card/movie-card.styles';
+import StarIcon from '@mui/icons-material/Star';
+import { useFavorites } from '../../hooks/use-favorites.hook';
 
 const MovieDetails: FC = () => {
   const { id } = useParams();
   const navigate = useNavigate();
-  const { movie, isLoading } = useMovie(Number(id));
-  const [imgError, setImgError] = useState(false); // track image load error
+  const { movie, isLoading } = useMovie(id);
+  const [imgError, setImgError] = useState(false);
+
+  const {addToFavorites} = useFavorites();
 
   if (isLoading || movie === null) return <MovieDetailsSkeleton />;
 
@@ -41,7 +45,7 @@ const MovieDetails: FC = () => {
         {/* Poster & Title */}
         <Stack direction="row" spacing={3}>
           {imgError ? (
-            <ImageNotFoundBox sx={{ width: 270, height: 405, flexShrink: 0,  borderRadius:'8px'}}>
+            <ImageNotFoundBox sx={{ width: 270, height: 405, flexShrink: 0, borderRadius: '8px' }}>
               Image Not Found
             </ImageNotFoundBox>
           ) : (
@@ -83,6 +87,13 @@ const MovieDetails: FC = () => {
                 <Chip key={g} label={g.trim()} color="primary" size="small" />
               ))}
             </Stack>
+
+              <Box mt={4}>
+                <Button startIcon={<StarIcon/>} variant='contained' onClick={()=> addToFavorites(movie)}>
+                  Add to favorites
+                </Button>
+              </Box>
+
           </Stack>
         </Stack>
 

@@ -1,19 +1,31 @@
-import { Box, TextField, Grid, Divider, InputAdornment } from '@mui/material';
+import { Box, TextField, Grid, Divider, InputAdornment, Button } from '@mui/material';
 import { useState, type FC } from 'react';
 import MovieCard from '../../components/movie-card/movie-card.component';
 import { useMovies } from '../../hooks/use-movies.hook';
 import MovieCardSkeleton from '../../components/movie-card/movie-card-skeleton.component';
 import SearchIcon from '@mui/icons-material/Search';
+import AddIcon from '@mui/icons-material/Add';
+import MovieDialog from '../../components/movie-dialog/movie-dialog.component';
+import { useCreateMovie } from '../../hooks/use-create-movie.hook';
+import type { Movie } from '../../interfaces/movie.interface';
 
 const Movies: FC = () => {
 
 
   const [filter, setFilter] = useState<string>('');
+  const [isMovieDialogOpen, setIsMovieDialogOpen] =useState(false);
   const { movies, isLoading } = useMovies();
+  const {createMovie } = useCreateMovie();
 
   const filteredMovies = movies.filter((movie) =>
     movie.name.toLowerCase().includes(filter.toLowerCase())
   );
+
+
+  const onDialogSubmit = async (movie:Movie) =>{
+
+    await createMovie(movie)
+  }
 
   return (
     <Box flexGrow={1} display='flex' flexDirection='column'>
@@ -47,6 +59,10 @@ const Movies: FC = () => {
             },
           }}
         />
+        <Button startIcon={<AddIcon/>} variant='contained' sx={{ml:3}} onClick={()=>setIsMovieDialogOpen(true)}>
+          Add Movie
+        </Button>
+
         <Divider sx={{ mt: 2 }} />
       </Box>
       <Box flexGrow={1} overflow='auto' p={2}>
@@ -71,6 +87,8 @@ const Movies: FC = () => {
         }
 
       </Box>
+
+      <MovieDialog open={isMovieDialogOpen} onClose={()=>setIsMovieDialogOpen(false)} onSubmit={onDialogSubmit}/>
     </Box>
   )
 }

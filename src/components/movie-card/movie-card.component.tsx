@@ -1,12 +1,13 @@
-import  {  useState, type FC } from 'react';
+import { useState, type FC } from 'react';
 import Card from '@mui/material/Card';
 import CardContent from '@mui/material/CardContent';
 import Typography from '@mui/material/Typography';
-import { CardMedia } from '@mui/material';
+import { Box, CardMedia, Stack } from '@mui/material';
 import type { Movie } from '../../interfaces/movie.interface';
 import { ImageNotFoundBox } from './movie-card.styles';
 import { useNavigate } from 'react-router';
-
+import { useFavorites } from '../../hooks/use-favorites.hook';
+import StarIcon from '@mui/icons-material/Star';
 
 interface MovieCardProps {
   movie: Movie;
@@ -16,18 +17,19 @@ interface MovieCardProps {
 
 const MovieCard: FC<MovieCardProps> = ({ movie }) => {
   const [imgError, setImgError] = useState(false);
-
   const navigate = useNavigate();
 
-  const detailsOnClickHandler = (id:number) =>{
+  const { isFavorite } = useFavorites()
+
+  const detailsOnClickHandler = (id: string) => {
 
     navigate(`./${id}`)
   }
 
   return (
     <Card
-      onClick={() => detailsOnClickHandler(movie.rank)} 
-    sx={{
+      onClick={() => detailsOnClickHandler(movie.id)}
+      sx={{
         width: '100%',
         borderRadius: 2,
         overflow: 'hidden',
@@ -36,8 +38,8 @@ const MovieCard: FC<MovieCardProps> = ({ movie }) => {
         '&:hover': {
           transform: 'scale(1.03)',
           boxShadow: 6,
-      },
-    }} >
+        },
+      }} >
       {imgError ? (
         <ImageNotFoundBox>
           Image Not Found
@@ -55,10 +57,24 @@ const MovieCard: FC<MovieCardProps> = ({ movie }) => {
         />
       )}
       <CardContent>
-        <Typography gutterBottom variant="subtitle1" component="div" noWrap>
-          {movie.name}
-        </Typography>
+        <Stack direction='row' gap={2} alignItems='center'>
+          {
+          isFavorite(movie.id)
+          &&
+          <Box>
+            <StarIcon />
+          </Box>
+        }
+          <Typography variant="h6" component="div" noWrap mb={0}>
+            {movie.name}
+          </Typography>
+
+           
+        </Stack>
+
        
+
+
       </CardContent>
     </Card>
   );

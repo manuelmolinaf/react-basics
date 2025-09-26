@@ -1,44 +1,32 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useState, useCallback } from 'react';
+import axios from 'axios';
 import type { Movie } from '../interfaces/movie.interface';
 
+export const useMovies = () => {
+  const [movies, setMovies] = useState<Movie[]>([]);
+  const [error, setError] = useState<string | null>(null);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-export const useMovies = () =>{
-
-    const [movies, setMovies] = useState<Movie[]>([]);
-    const [error, setError] = useState<string | null>(null);
-    const [isLoading, setIsLoading] = useState<boolean>(true)
-  
-    useEffect(() => {
-  
-      const fetchMovies = async () =>{
-        
-        try{
-          const response = await fetch('http://localhost:9999/movies');
-  
-          if(!response.ok){
-            throw new Error('Error fetching data!')
-          }
-  
-          const data: Movie[] = await response.json();
-  
-          setMovies(data);      
-        }
-        // eslint-disable-next-line @typescript-eslint/no-explicit-any
-        catch(err:any){
-          setError(err.message)
-        }
-        finally{
-          setIsLoading(false);
-        }
-  
+  const fetchMovies = useCallback(async () => {
+    setIsLoading(true);
+    setError(null);
+    try {
+      const response = await axios.get<Movie[]>('http://localhost:9999/movies');
+      setMovies(response.data);
+    } catch (err: unknown) {
+      if (axios.isAxiosError(err)) {
+        setError(err.response?.data?.message || err.message);
+      } else {
+        setError('Unexpected error occurred');
       }
-  
-      fetchMovies();
-  
-    },
-      []
-    )
+    } finally {
+      setIsLoading(false);
+    }
+  }, []);
 
+  useEffect(() => {
+    fetchMovies();
+  }, [fetchMovies]);
 
-    return {movies, isLoading, error}
-}
+  return { movies, isLoading, error, refetch: fetchMovies };
+};

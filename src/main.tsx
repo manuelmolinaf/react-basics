@@ -11,6 +11,7 @@ import { getTheme } from './theme/theme';
 import { ThemeProvider } from '@mui/material';
 
 import { BrowserRouter } from "react-router";
+import { FavoritesProvider } from './components/context/favorites.context';
 
 const mode: 'light' | 'dark' = 'light';
 const theme = getTheme(mode);
@@ -19,7 +20,9 @@ createRoot(document.getElementById('root')!).render(
   <StrictMode>
     <BrowserRouter>
       <ThemeProvider theme={theme}>
-        <App />
+        <FavoritesProvider>
+          <App />
+        </FavoritesProvider>
       </ThemeProvider>
     </BrowserRouter>
 

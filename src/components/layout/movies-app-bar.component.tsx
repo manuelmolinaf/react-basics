@@ -1,4 +1,4 @@
-import { Box, AppBar, Toolbar, Typography } from '@mui/material';
+import { Box, AppBar, Toolbar, Typography, Button } from '@mui/material';
 import type { FC } from 'react';
 import { useNavigate } from 'react-router';
 
@@ -17,6 +17,12 @@ const MoviesAppBar: FC = () => {
           >
             MOVIES
           </Typography>
+          <Button color='inherit' onClick={() => navigate('/movies')}>
+            All Movies
+          </Button>
+          <Button color='inherit' onClick={() => navigate('/favorites')}>
+            Favorites
+          </Button>
         </Toolbar>
       </AppBar>
     </Box>
