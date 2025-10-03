@@ -13,19 +13,38 @@ import { ThemeProvider } from '@mui/material';
 import { BrowserRouter } from "react-router";
 import { FavoritesProvider } from './components/context/favorites.context';
 
+import { ReactKeycloakProvider } from '@react-keycloak/web';
+import { keycloakinitOptions, keycloakInstance, onKeycloakEvent, onKeycloakTokens } from './utils/keycloak.util';
+import LoadingKeycloak from './components/layout/keycloak-loading/loading-keycloak.component';
+
+import { QueryClientProvider } from '@tanstack/react-query';
+import queryClient from './utils/query-client.util';
+
 const mode: 'light' | 'dark' = 'light';
 const theme = getTheme(mode);
 
 createRoot(document.getElementById('root')!).render(
-  <StrictMode>
-    <BrowserRouter>
-      <ThemeProvider theme={theme}>
-        <FavoritesProvider>
-          <App />
-        </FavoritesProvider>
-      </ThemeProvider>
-    </BrowserRouter>
+  <ThemeProvider theme={theme}>
+    <ReactKeycloakProvider
+      authClient={keycloakInstance}
+      initOptions={keycloakinitOptions}
+      onEvent={onKeycloakEvent}
+      onTokens={onKeycloakTokens}
+      LoadingComponent={<LoadingKeycloak />}
+    >
+      <StrictMode>
+        <BrowserRouter>
 
+          <QueryClientProvider client={queryClient}>
+            <FavoritesProvider>
+              <App />
+            </FavoritesProvider>
+          </QueryClientProvider>
 
-  </StrictMode>
+        </BrowserRouter>
+
+      </StrictMode>
+    </ReactKeycloakProvider>
+  </ThemeProvider>
+
 )

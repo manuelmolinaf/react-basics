@@ -8,6 +8,8 @@ import AddIcon from '@mui/icons-material/Add';
 import MovieDialog from '../../components/movie-dialog/movie-dialog.component';
 import { useCreateMovie } from '../../hooks/use-create-movie.hook';
 import type { Movie } from '../../interfaces/movie.interface';
+import { useQuery } from '@tanstack/react-query'
+
 
 const Movies: FC = () => {
 
@@ -17,7 +19,11 @@ const Movies: FC = () => {
   const { movies, isLoading } = useMovies();
   const {createMovie } = useCreateMovie();
 
-  const filteredMovies = movies.filter((movie) =>
+
+   
+
+
+  const filteredMovies = movies?.filter((movie) =>
     movie.name.toLowerCase().includes(filter.toLowerCase())
   );
 
@@ -78,7 +84,7 @@ const Movies: FC = () => {
             </Grid>
             :
             <Grid container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }} display='flex' alignContent='center' justifyContent='center' width='100%' >
-              {filteredMovies.map((movie, index) => (
+              {filteredMovies?.map((movie, index) => (
                 <Grid key={index} size={{ xs: 2, sm: 4, md: 2 }}>
                   <MovieCard movie={movie} />
                 </Grid>

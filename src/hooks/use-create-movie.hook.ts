@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import axios from 'axios';
 import type { Movie } from '../interfaces/movie.interface';
+import axiosClient from '../utils/axios.util';
 
 export const useCreateMovie = () => {
   const [error, setError] = useState<string | null>(null);
@@ -14,7 +15,7 @@ export const useCreateMovie = () => {
     setIsSuccess(false);
 
     try {
-      const response = await axios.post<Movie>('http://localhost:9999/movies',movie, );
+      const response = await axiosClient.post<Movie>('/movies',movie, );
 
       setNewMovie(response.data);
       setIsSuccess(true);

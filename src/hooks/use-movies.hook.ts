@@ -1,32 +1,30 @@
-import { useEffect, useState, useCallback } from 'react';
+
 import axios from 'axios';
 import type { Movie } from '../interfaces/movie.interface';
+import { useQuery, useQueryClient } from '@tanstack/react-query';
+
 
 export const useMovies = () => {
-  const [movies, setMovies] = useState<Movie[]>([]);
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState<boolean>(true);
 
-  const fetchMovies = useCallback(async () => {
-    setIsLoading(true);
-    setError(null);
-    try {
-      const response = await axios.get<Movie[]>('http://localhost:9999/movies');
-      setMovies(response.data);
-    } catch (err: unknown) {
-      if (axios.isAxiosError(err)) {
-        setError(err.response?.data?.message || err.message);
-      } else {
-        setError('Unexpected error occurred');
-      }
-    } finally {
-      setIsLoading(false);
-    }
-  }, []);
+  const queryClient = useQueryClient();
 
-  useEffect(() => {
-    fetchMovies();
-  }, [fetchMovies]);
+  const fetchMovies = async ():Promise<Movie[]> =>{
 
-  return { movies, isLoading, error, refetch: fetchMovies };
+    const response = await axios.get<Movie[]>('http://localhost:9999/movies');
+
+    return response.data;
+  }
+
+
+  const movieQuery = useQuery<Movie[]>({ queryKey: ['movies'], queryFn: fetchMovies })
+
+  const invalidateMovies = () =>{
+    queryClient.invalidateQueries({
+      queryKey:['movies'],
+      exact:true
+    })
+  }
+
+
+  return {  movies:movieQuery.data , isLoading: movieQuery.isLoading, error: movieQuery.error, refetch: invalidateMovies  };
 };
